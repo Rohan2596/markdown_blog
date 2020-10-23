@@ -2,6 +2,14 @@ const express=require('express');
 const { response } = require('express');
 const app=express();
 const mongoose=require('mongoose');
+const bodyparser=require('body-parser');
+
+
+app.use(bodyparser.json());
+
+//Import postsRoute
+const postsRoute=require('./routes/post');
+app.use('/post',postsRoute);
 
 //middleWare
 app.use('/post',()=>{
@@ -13,12 +21,11 @@ app.use('/post',()=>{
 app.get("/",(request,response)=>{
     response.send("Welcome to Node Js.");
 });
-app.get("/post",(request,response)=>{
-    response.send("We are on posts.");
-});
+
 //Connect to DB
-mongoose.connect('http://localhost:27017/appDB',()=>
-console.log('Connected to DB!')
+mongoose.connect('http://localhost:27017/myDb',
+{ useNewUrlParser:true },
+()=>console.log('Connected to DB!')
 );
 //listening to port
-app.listen(3000);
+app.listen(3001);
